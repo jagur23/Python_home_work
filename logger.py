@@ -56,3 +56,21 @@ def search_contact(field=''):
         contact_list = contact_str.replace('\n', ' ').split(' ')
         if search in contact_list[index_var]:
             print(f'\n{contact_str}\n')
+
+
+def copy_contact():
+    print_contacts()
+    contact_num = int(input('Укажите порядковый номер контакта, который хотите скопировать: '))
+    with open('phonebook.txt', 'r', encoding='utf-8') as file:
+        contacts_str = file.read()
+        contacts_list = contacts_str.rstrip().split('\n\n')
+
+    while contact_num > len(contacts_list):
+        print('Контакта с таким порядковым номером не существует!')
+        contact_num = int(input('Укажите порядковый номер контакта, который хотите скопировать: '))
+
+        contact_for_copy = contacts_list[contact_num - 1]
+
+    with open('new_phonebook.txt', 'a', encoding='utf-8') as file:
+        file.write(contact_for_copy)
+        print('Контакт скопирован!')
