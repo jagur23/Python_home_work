@@ -5,7 +5,7 @@ def interface():
         #pass
 
     user_input = None
-    while user_input != '6':
+    while user_input != '7':
         print(
         'Возможные варианты действия:\n'
         '1. Добавить контакт\n'
@@ -13,12 +13,13 @@ def interface():
         '3. Поиск контакта\n'
         '4. Копировать контакт\n'
         '5. Удалить контакт\n'
-        '6. Выход из программы\n'
+        '6. Редактировать контакт\n'
+        '7. Выход из программы\n'
         )
 
         user_input = input('Введите вариант: ')
 
-        while user_input not in ('1', '2', '3', '4', '5', '6'):
+        while user_input not in ('1', '2', '3', '4', '5', '6', '7'):
             print('Некорректный ввод.')
             user_input = input('Введите вариант: ')
 
@@ -35,3 +36,5 @@ def interface():
                 copy_contact()
             case '5':
                 delete_contact()
+            case '6':
+                edit_contact()

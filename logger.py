@@ -113,3 +113,69 @@ def delete_contact():
 
     print('Контакт успешно удален!')
     print()
+
+
+def edit_contact():
+    print_contacts()
+    contact_num = int(input('Укажите порядковый номер контакта, который хотите отредактировать или нажмите 0 для выхода: '))
+
+    if contact_num == 0:
+            print()
+            return
+    
+    with open('phonebook.txt', 'r', encoding='utf-8') as file:
+        contacts_str = file.read()
+        contacts_list = contacts_str.rstrip().split('\n\n')
+
+    while contact_num > len(contacts_list):
+        if contact_num == 0:
+            print()
+            return
+        print('Контакта с таким порядковым номером не существует!')
+        contact_num = int(input('Укажите порядковый номер контакта, который хотите отредактировать или нажмите 0 для выхода: '))
+
+    print()
+    contact_list = contacts_list[contact_num - 1].replace('\n', ' ').split(' ')
+    print(*contact_list)
+    print()
+    
+    print('Варианты редактирования:\n'
+        '1. Фамилия\n'
+        '2. Имя\n'
+        '3. Отчество\n'
+        '4. Телефон\n'
+        '5. Город проживания\n'
+        '6. Выход из редактирования\n'
+    )
+
+    edit_num = int(input('Введите номер варианта для редактирования: '))
+
+    if edit_num == 6:
+        print()
+        return
+    
+    while edit_num not in (1, 2, 3, 4, 5):
+            print('Некорректный ввод.')
+            edit_num = input('Введите номер варианта для редактирования: ')
+
+    contact_list[edit_num - 1] = ''
+    contact_list[edit_num - 1] = input('Введите новое значение: ')
+    print(*contact_list)
+    print('Контакт отредоктирован!')
+    print()
+    contact_str = ''
+
+    for i in range(len(contact_list)):
+        if i == 3:
+            contact_str += contact_list[i] + '\n'
+        else:
+             contact_str += contact_list[i] + ' '
+
+    contacts_list[contact_num - 1] = contact_str
+    contacts_str = ''
+
+    for element in contacts_list:
+        contacts_str += element + '\n\n'
+
+    with open('phonebook.txt', 'w', encoding='utf-8') as file:
+        file.write(contacts_str)
