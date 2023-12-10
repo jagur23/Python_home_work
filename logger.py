@@ -60,17 +60,56 @@ def search_contact(field=''):
 
 def copy_contact():
     print_contacts()
-    contact_num = int(input('Укажите порядковый номер контакта, который хотите скопировать: '))
+    contact_num = int(input('Укажите порядковый номер контакта, который хотите скопировать или нажмите 0 для выхода: '))
+
+    if contact_num == 0:
+            print()
+            return
+    
+    with open('phonebook.txt', 'r', encoding='utf-8') as file:
+        contacts_str = file.read()
+        contacts_list = contacts_str.rstrip().split('\n\n')
+        contact_for_copy = contacts_list[contact_num - 1] + '\n\n'
+
+    while contact_num > len(contacts_list):
+        if contact_num == 0:
+            print()
+            return
+        print('Контакта с таким порядковым номером не существует!')
+        contact_num = int(input('Укажите порядковый номер контакта, который хотите скопировать или нажмите 0 для выхода: '))
+
+    with open('new_phonebook.txt', 'a', encoding='utf-8') as file:
+        file.write(contact_for_copy)
+        print('Контакт скопирован!\n')
+
+
+def delete_contact():
+    print_contacts()
+    contact_num = int(input('Укажите порядковый номер контакта, который хотите удалить из справочника или нажмите 0 для выхода: '))
+
+    if contact_num == 0:
+            print()
+            return
+    
     with open('phonebook.txt', 'r', encoding='utf-8') as file:
         contacts_str = file.read()
         contacts_list = contacts_str.rstrip().split('\n\n')
 
     while contact_num > len(contacts_list):
+        if contact_num == 0:
+            print()
+            return
         print('Контакта с таким порядковым номером не существует!')
-        contact_num = int(input('Укажите порядковый номер контакта, который хотите скопировать: '))
+        contact_num = int(input('Укажите порядковый номер контакта, который хотите удалить из справочника или нажмите 0 для выхода: '))
 
-        contact_for_copy = contacts_list[contact_num - 1]
+    contacts_list.pop(contact_num - 1)
+    contacts_str = ''
 
-    with open('new_phonebook.txt', 'a', encoding='utf-8') as file:
-        file.write(contact_for_copy)
-        print('Контакт скопирован!')
+    for element in contacts_list:
+        contacts_str += element + '\n\n'
+
+    with open('phonebook.txt', 'w', encoding='utf-8') as file:
+        file.write(contacts_str)
+
+    print('Контакт успешно удален!')
+    print()
